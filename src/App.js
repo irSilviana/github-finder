@@ -5,11 +5,18 @@ import axios from "axios";
 import "./App.css";
 
 class App extends Component {
-  async componentDidMount() {
-    let apiUrl = "https://api.github.com/users";
+  state = {
+    users: [],
+    loading: false,
+  };
 
+  async componentDidMount() {
+    this.setState({ loading: true });
+
+    let apiUrl = "https://api.github.com/users";
     const res = await axios.get(apiUrl);
-    console.log(res.data);
+
+    this.setState({ users: res.data, loading: false });
   }
 
   render() {
@@ -17,7 +24,7 @@ class App extends Component {
       <div className="App">
         <Navbar />
         <div className="container">
-          <Users />
+          <Users loading={this.state.loading} users={this.state.users} />
         </div>
       </div>
     );
