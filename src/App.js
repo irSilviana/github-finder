@@ -14,7 +14,11 @@ class App extends Component {
     this.setState({ loading: true });
 
     let apiUrl = "https://api.github.com/users";
-    const res = await axios.get(apiUrl);
+    let clientID = process.env.REACT_APP_GITHUB_CLIENT_ID;
+    let clientSecret = process.env.REACT_APP_GITHUB_CLIENT_SECRET;
+    const res = await axios.get(
+      `${apiUrl}?client_id=${clientID}&client_secret=${clientSecret}`
+    );
 
     this.setState({ users: res.data, loading: false });
   }
