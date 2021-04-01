@@ -1,33 +1,45 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 
-export default function Search() {
-  let [text, setText] = useState("");
+class Search extends Component {
+  state = {
+    text: "",
+  };
 
-  function onChange(event) {
-    setText(event.target.value);
-  }
+  static propTypes = {
+    searchUsers: PropTypes.func.isRequired,
+  };
 
-  function onSubmit(event) {
+  onChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  onSubmit = (event) => {
     event.preventDefault();
-    console.log(text);
-  }
+    this.props.searchUsers(this.state.text);
+    this.setState({ text: "" });
+  };
 
-  return (
-    <div>
-      <form className="form" onSubmit={onSubmit}>
-        <input
-          type="text"
-          name="text"
-          placeholder="Search users..."
-          value={text}
-          onChange={onChange}
-        />
-        <input
-          type="submit"
-          value="Search"
-          className="btn btn-dark btn-block"
-        />
-      </form>
-    </div>
-  );
+  render() {
+    return (
+      <div>
+        <form className="form" onSubmit={this.onSubmit}>
+          <input
+            type="text"
+            name="text"
+            placeholder="Search users..."
+            value={this.state.text}
+            onChange={this.onChange}
+          />
+          <input
+            type="submit"
+            value="Search"
+            className="btn btn-dark btn-block"
+          />
+        </form>
+      </div>
+    );
+  }
 }
+
+export default Search;
