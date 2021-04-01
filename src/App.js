@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Navbar from "./components/layout/Navbar";
 import Users from "./components/users/Users";
 import Search from "./components/users/Search";
+import Alert from "./components/layout/Alert";
 import axios from "axios";
 import "./App.css";
 
@@ -9,6 +10,7 @@ class App extends Component {
   state = {
     users: [],
     loading: false,
+    alert: null,
   };
 
   // Default behavior
@@ -25,7 +27,7 @@ class App extends Component {
   //   this.setState({ users: res.data, loading: false });
   // }
 
-  //Search GitHub Users
+  // Search GitHub Users
   searchUsers = async (text) => {
     this.setState({ loading: true });
 
@@ -39,19 +41,27 @@ class App extends Component {
     this.setState({ users: res.data.items, loading: false });
   };
 
-  //Clear users from state
+  // Clear users from state
   clearUsers = () => this.setState({ users: [], loading: false });
 
+  // Set Alert
+  setAlert = (msg, type) => {
+    this.setState({ alert: { msg, type } });
+    setTimeout(() => this.setState({ alert: null }), 5000);
+  };
+
   render() {
-    const { users, loading } = this.state;
+    const { users, loading, alert } = this.state;
     return (
       <div className="App">
         <Navbar />
         <div className="container">
+          <Alert alert={alert} />
           <Search
             searchUsers={this.searchUsers}
             clearUsers={this.clearUsers}
             showClear={users.length > 0 ? true : false}
+            setAlert={this.setAlert}
           />
           <Users loading={loading} users={users} />
         </div>
