@@ -31,14 +31,14 @@ function GithubState(props) {
   // Set Loading
 
   return (
-    <GithubContext.Provider>
-      value=
-      {{
+    <GithubContext.Provider
+      value={{
         users: state.users,
         user: state.user,
         repos: state.repos,
         loading: state.loading,
       }}
+    >
       {props.children}
     </GithubContext.Provider>
   );
