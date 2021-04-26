@@ -25,7 +25,7 @@ const App = () => {
                 <Route
                   exact
                   path="/"
-                  render={(props) => (
+                  render={() => (
                     <Fragment>
                       <Search />
                       <Users />
